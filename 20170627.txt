@@ -13,7 +13,7 @@ git config core.autocrlf false
 第二步，使用命令git commit，完成。
 
 HuJiW
-hujw195
+
 
 $ git remote add origin1 git@github.com:HuJiW/learngit.git
 
