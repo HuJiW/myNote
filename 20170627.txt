@@ -125,3 +125,8 @@ git push -u origin master
 
 
 $ ssh-keygen -t rsa -C "15306669686@189.cn"
+-----------------------------------------------
+cd /d/smpr/002
+git add *
+git push -u origin1 master
+---------------------------------------------------
