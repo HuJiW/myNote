@@ -1,0 +1,19 @@
+docker ps -a：查看已经在运行的所有容器
+
+docker port容器ID：查看容器的内外端口映射
+
+docker logs容器ID：查看容器的日志
+
+docker stop容器ID：关闭容器（未删除）
+
+docker start容器ID：开启容器
+
+docker rm容器ID：删除对应的容器（注：删除之前必须停止，否则删除不掉的）
+
+码头工人图像：查看机器上所有的纳入
+
+docker rmi更高的ID：删除对应的副本（注：删除之前必须停止或删除它创建的所有容器）
+
+docker save更改后的ID -o文件：将指定的打包文件打包（例如：docker save ef6a7c98d192 -o /home/wuyongfei/springboot-demo.tar）
+
+docker load -i文件夹名称（自定义）将指定的移植到另外一台机器上在Docker中进行加载，再按照上面的步骤三查看更多，启动容器就实现了Docker的移植（例如：docker加载-i springboot-demo.tar）
