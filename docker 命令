@@ -1,19 +1,29 @@
 docker ps -a：查看已经在运行的所有容器
-
 docker port容器ID：查看容器的内外端口映射
-
 docker logs容器ID：查看容器的日志
-
 docker stop容器ID：关闭容器（未删除）
-
 docker start容器ID：开启容器
-
 docker rm容器ID：删除对应的容器（注：删除之前必须停止，否则删除不掉的）
-
 码头工人图像：查看机器上所有的纳入
-
 docker rmi更高的ID：删除对应的副本（注：删除之前必须停止或删除它创建的所有容器）
-
 docker save更改后的ID -o文件：将指定的打包文件打包（例如：docker save ef6a7c98d192 -o /home/wuyongfei/springboot-demo.tar）
-
 docker load -i文件夹名称（自定义）将指定的移植到另外一台机器上在Docker中进行加载，再按照上面的步骤三查看更多，启动容器就实现了Docker的移植（例如：docker加载-i springboot-demo.tar）
+
+列出本机的所有 image 文件：docker image ls
+删除 image 文件：docker image rm [imageName]
+列出本机正在运行的容器：docker container ls -l
+列出本机所有容器，包括终止运行的容器：docker container ls -l --all
+删除容器文件：docker container rm [containerID]
+导出容器：docker export [OPTIONS] CONTAINER
+导入容器：docker import [OPTIONS] file|URL|- [REPOSITORY[:TAG]]
+
+docker 的启动使用 docker run [OPTIONS] IMAGE [COMMAND] [ARG...] 命令，例如：
+docker run -it -p 8022:22 --ipc host --name docker_example --gpus all -v ~/work:/work tensorflow/tensorflow:latest-gpu-py3-jupyter /bin/bash
+-i 表示 Allocate a pseudo-tty （分配一个伪tty）
+-t 表示 Keep STDIN open even if not attached（即使未连接STDIN也应保持打开状态）
+-p 表示对端口号进行映射，即将 docker 容器的 22 号端口映射到宿主机的 8022 端口，这样设置的目的是方便后续使用 VSCode 连接容器，可以根据需要进行设置
+-ipc host 的目的是为了增加主机与容器共享内存用的，如果这个参数报错，还可以采用--shm-size参数[1]
+--name docker_example 是将容器命名为 docker_example，docker 有长id、短id、name三个标识，如果不指定名称则会随机名称
+--gpus all 是使用全部宿主机 GPU，这里的设置可以参考 nvidia-docker 的 Usage 具体设置使用哪个卡
+-v ~/work:/work 是将宿主机的 ~/work 目录映射到容器的 /work 目录，方便主机和宿主机间共享数据，这里的 -v 是 volumes 的意思，而这个共享是有两种情况的，具体信息可以参考《 Use volumes 》
+tensorflow/tensorflow:latest-gpu-py3-jupyter 是指定使用的镜像版本，这里的版本可以在 docker-hub 查到
