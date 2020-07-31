@@ -1,12 +1,17 @@
-自动生成dockerfile、docker-compose.yml和.dockerignore文件（按F1并搜索Docker：将Docker文件添加到Workspace）；
-  语法突出高亮显示以及docker-compose.yml和Dockerfile文件的智能提示
-  悬停提示；
-  Dockerfile文件的语法检查和分析，会提示警告或错误；
-  镜像搜索和智能提示；
-  集成最常见的Docker命令（例如docker build，docker push等，需按F1唤起）；
-  Docker镜像、容器管理；
-  其他：
-    对Azure的支持（这块我们就不具体介绍了）；
-    .NET Core程序调试支持；
-    连接docker-machine；
-    在Linux上允许命令。
+Microsoft Docker
+  自动生成dockerfile、docker-compose.yml和.dockerignore文件（按F1并搜索Docker：将Docker文件添加到Workspace）；
+    语法突出高亮显示以及docker-compose.yml和Dockerfile文件的智能提示
+    悬停提示；
+    Dockerfile文件的语法检查和分析，会提示警告或错误；
+    镜像搜索和智能提示；
+    集成最常见的Docker命令（例如docker build，docker push等，需按F1唤起）；
+    Docker镜像、容器管理；
+    其他：
+      对Azure的支持（这块我们就不具体介绍了）；
+      .NET Core程序调试支持；
+      连接docker-machine；
+      在Linux上允许命令。
+    
+Docker Compose
+  管理Compose的工程（ Start、Stop、Up, Down）
+  支持多个根；
