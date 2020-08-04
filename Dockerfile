@@ -59,32 +59,31 @@ Docker Compose
           2. 使用 docker-compose.yml 定义构成应用程序的服务，这样它们可以在隔离环境中一起运行。
           3. 最后，执行 docker-compose up 命令来启动并运行整个应用程序。
       
-      # yaml 配置实例
-              version: '3'
-              services:
-                web:
-                  build: .
-                  ports:
-                 - "5000:5000"
-                  volumes:
-                 - .:/code
-                  - logvolume01:/var/log
-                  links:
-                 - redis
-                redis:
-                  image: redis
-              volumes:
-                logvolume01: {}
+    
                 
-                
-                
-  Dockerfile 
-        FROM python:3.7-alpine
-        WORKDIR /code
-        ENV FLASK_APP app.py
+  Dockerfile 配置文件
+        FROM python:3.7-alpine   #从 Python 3.7 映像开始构建镜像。
+        WORKDIR /code            #将工作目录设置为 /code  
+        ENV FLASK_APP app.py     #设置 flask 命令使用的环境变量
         ENV FLASK_RUN_HOST 0.0.0.0
-        RUN apk add --no-cache gcc musl-dev linux-headers
-        COPY requirements.txt requirements.txt
+        RUN apk add --no-cache gcc musl-dev linux-headers    # 安装 gcc，以便诸如 MarkupSafe 和 SQLAlchemy 之类的 Python 包可以编译加速。
+        COPY requirements.txt requirements.txt    #复制 requirements.txt 并安装 Python 依赖项。
         RUN pip install -r requirements.txt
         COPY . .
         CMD ["flask", "run"]
+
+docker-compose.yml 配置文件
+        # yaml 配置   定义了两个服务：web 和 redis
+        version: '3'
+        services:
+          web:      #从 Dockerfile 当前目录中构建的镜像
+            build: .
+            ports:
+             - "5000:5000"
+          redis:     #使用 Docker Hub 的公共 Redis 映像
+            image: "redis:alpine"
+            
+执行以下命令来启动应用程序：docker-compose up
+
+如果你想在后台执行该服务可以加上 -d 参数：docker-compose up -d            
+            
