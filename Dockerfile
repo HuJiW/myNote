@@ -49,5 +49,42 @@ Dockerfile 是一个用来构建镜像的文本文件
       用于指定执行后续命令的用户和用户组，这边只是切换后续命令执行的用户（用户和用户组必须提前已经存在）。
       USER <用户名>[:<用户组>]    
       
-      
 docker build -t nginx:test .   #通过目录下的 Dockerfile 构建一个 nginx:test（镜像名称:镜像标签）,最后的 . 代表本次执行的上下文路径
+
+
+Docker Compose
+      用于定义和运行多容器 Docker 应用程序的工具。通过 Compose，您可以使用 YML 文件来配置应用程序需要的所有服务。然后，使用一个命令，就可以从 YML 文件配置中创建并启动所有服务。
+      使用的三个步骤：
+          1. 使用 Dockerfile 定义应用程序的环境。
+          2. 使用 docker-compose.yml 定义构成应用程序的服务，这样它们可以在隔离环境中一起运行。
+          3. 最后，执行 docker-compose up 命令来启动并运行整个应用程序。
+      
+      # yaml 配置实例
+              version: '3'
+              services:
+                web:
+                  build: .
+                  ports:
+                 - "5000:5000"
+                  volumes:
+                 - .:/code
+                  - logvolume01:/var/log
+                  links:
+                 - redis
+                redis:
+                  image: redis
+              volumes:
+                logvolume01: {}
+                
+                
+                
+  Dockerfile 
+        FROM python:3.7-alpine
+        WORKDIR /code
+        ENV FLASK_APP app.py
+        ENV FLASK_RUN_HOST 0.0.0.0
+        RUN apk add --no-cache gcc musl-dev linux-headers
+        COPY requirements.txt requirements.txt
+        RUN pip install -r requirements.txt
+        COPY . .
+        CMD ["flask", "run"]
