@@ -58,9 +58,7 @@ Docker Compose
           1. 使用 Dockerfile 定义应用程序的环境。
           2. 使用 docker-compose.yml 定义构成应用程序的服务，这样它们可以在隔离环境中一起运行。
           3. 最后，执行 docker-compose up 命令来启动并运行整个应用程序。
-      
     
-                
   Dockerfile 配置文件
         FROM python:3.7-alpine   #从 Python 3.7 映像开始构建镜像。
         WORKDIR /code            #将工作目录设置为 /code  
@@ -72,7 +70,7 @@ Docker Compose
         COPY . .
         CMD ["flask", "run"]
 
-docker-compose.yml 配置文件
+  docker-compose.yml 配置文件
         # yaml 配置   定义了两个服务：web 和 redis
         version: '3'
         services:
@@ -83,7 +81,19 @@ docker-compose.yml 配置文件
           redis:     #使用 Docker Hub 的公共 Redis 映像
             image: "redis:alpine"
             
-执行以下命令来启动应用程序：docker-compose up
-
-如果你想在后台执行该服务可以加上 -d 参数：docker-compose up -d            
+  执行以下命令来启动应用程序：docker-compose up
+  如果你想在后台执行该服务可以加上 -d 参数：docker-compose up -d            
             
+
+
+volumes
+    将主机的数据卷或着文件挂载到容器里。
+    version: "3.7"
+    services:
+      db:
+        image: postgres:latest
+        volumes:
+          - "/localhost/postgres.sock:/var/run/postgres/postgres.sock"
+          - "/localhost/data:/var/lib/postgresql/data"
+          
+         
