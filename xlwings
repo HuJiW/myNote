@@ -1,0 +1,91 @@
+一 application 操作：
+1 导入：
+  import xlwings as xw
+
+2 打开 excel
+  app = xw.App(visible=True,add_book=True)  #visible是否可见。False表示后台运行。 add_book 是否新建一个工作簿
+ 
+3 其他操作：
+  app.screen_updating = False # :屏幕更新，就是说代码对于excel的操作你可以看见，关闭实时更新可以加快脚本运行。默认是True。
+  app.pid    #App进程pid
+  app.books  #返回一个打开的全部workbook的列表。Python打开的和手动打开的是不互通的
+  终止进程，强制退出。
+  app.quit() #不保存的情况下，退出excel程序
+
+二  workbooks
+1新建wk对象
+  命令有很多，选择一个常用的就好。
+    wb = app.books.add() #创建新的book
+    wk = xw.Book()
+    wk = xw.books.add()
+    
+2 打开 excel文件
+  wb = app.books.open('filepath')
+  wk = xw.Book('filepath')
+  wk = xw.books.open('filepath')
+  
+3 打开未储存或未关闭的excel实例
+  wk = xw.Book('Book1')   
+  wk = xw.books['Book1']  #也可以使用索引
+  如果在两个Excel实例中打开了相同的文件，则需要完全限定它并包含应用程序实例。 您将通过xw.apps.keys()找到您的应用实例密钥（PID）：
+    xw.apps[10559].books['FileName.xlsx']<br>查看所有的实例进程：<br>xw.apps.keys() #输出list<br><br>kill所有的实例进程：<br>for i in xw.apps.keys():<br>　　i = 'taskkill/pid ' + str(i) + ' -t -f'     <br>　　os.system(i)
+
+4.保存
+  wb.save(path=None)#:保存工作簿，若为指定路径，保存在当前工作目录。　
+
+5. 关闭
+  wk.close()  #在没有保存的情况下关闭。
+
+
+三 对worksheet 操作
+wb = app.books.open('im.xlsx')
+sheet = wb.sheets[0]
+1 返回操作对象
+  sheet.activate #<bound method Sheet.activate of <Sheet [im.xlsx]Sheet1>>　
+2 返回sheet指定的book
+  sheet.book
+3 返回-个range对象，表示sheet上所有的单元格
+  sheet.cells #<Range [im.xlsx]Sheet1!$1:$1048576> 可以使用 sheet.cells[0,0].value 获取cell值。
+4 获取或设置Sheet的名称
+  sheet.name
+  sheet.names 返回所有的工作表特定名称。
+5  获取sheet中的所有图表集合
+1
+sheet.charts
+6 清空表中所有数据和格式。
+  sheet.clear()
+7 清楚工作表的内容，但保留格式
+  sheet.clear_contents()
+8 删除工作表
+  sheet.delete()
+9 返回表索引（与excel相同）
+  sheet.index
+10 创建一个新的Sheet并使其成为活动工作表
+  wb.sheets.add(name=None, before=None, after=None) 
+  #参数：name(str,default None) - 新工作表的名称。 如果为None，则默认为Excel的name.before (Sheet, default None) - 一个对象，指定在新工作表添加之前的added.after (Sheet, default None) - 指定工作表之后的工作表的对象 表格已添加。
+11 在整个工作表上自动调整列，行或两者的宽度
+  sheet.autofit(axis=None) 参数:axis (string, default None) –要自动调整行, 使用以下之一: rows 或 r，要自动调整列, 使用以下之一: columns h c，要自动调整行和列, 不提供参数<em id="__mceDel"><em id="__mceDel"><em id="__mceDel"><em id="__mceDel"><em id="__mceDel"><em id="__mceDel"><em id="__mceDel"><br></em></em></em></em></em></em></em>
+ 
+四 操作range
+1 引用区域
+  sheet.range('A1:F8')  #使用value可获取A1-F8的数据，以二元list展开
+2 引用单元格
+  sheet.range(‘A1’) #  .value 获取单元格值
+3 单元格赋值
+  sheet.range('A1').value="key"
+4 按行写入
+  sheet.range('A1').value=[1,2,3,4,5]
+5 按列写入
+  sheet.range('A1').options(transpose=True).value=[1,2,3,4,5]
+6 获取行数
+  sheet.used_range.last_cell.row
+7 获取列数
+  sheet.used_range.last_cell.column<em id="__mceDel" style="background-color: #ffffff; font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px;">　</em>
+8 获取连续的整行数据
+  sheet.range('A1').expand('right').value
+9 获取连续的整列数据
+  sheet.range('A1').expand('down').value
+10 获取行数和列数
+  sheet.range(1, 1).expand().shape
+  
+  
