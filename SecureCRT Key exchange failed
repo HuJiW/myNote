@@ -1,0 +1,37 @@
+SecureCRT连接出错
+
+英文描述：Key exchange failed. No compatible key exchange method. The server supports these methods: ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256
+
+中文描述：密钥交换失败。没有兼容的密钥交换方法。服务器支持以下方法：ecdh-sha2-nistp256、ecdh-sha2-nistp384、ecdh-sha2-nistp521、diffie-hellman-group-exchange-sha256
+
+解决方法：
+
+编辑 sudo nano /etc/ssh/sshd_config
+
+在文件尾部增加下面：
+
+RSAAuthentication yes
+PubkeyAuthentication yes
+PasswordAuthentication yes
+KexAlgorithms diffie-hellman-group1-sha1,diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1,diffie-hellman-group-exchange-sha256,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group1-sha1
+
+保存退出
+
+编辑 sudo nano /etc/ssh/ssh_config
+
+打开以下：
+
+   GSSAPIAuthentication no
+   GSSAPIDelegateCredentials no
+
+   IdentityFile ~/.ssh/id_rsa
+   IdentityFile ~/.ssh/id_dsa
+   IdentityFile ~/.ssh/id_ecdsa
+   IdentityFile ~/.ssh/id_ed25519
+   保存退出
+
+重新生成所有钥匙 ssh-keygen -A
+
+service ssh restart重启sshd
+
+药到病除，全网首发严禁转载！https://blog.csdn.net/sjj_11/article/details/106324336?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.channel_param&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.channel_param
